@@ -11,19 +11,24 @@ import SwiftyJSON
 
 open class JSONSwampSerializer: SwampSerializer {
 
-    public init() {}
+    public init() {
+    }
 
     open func pack(_ data: [Any]) -> Data? {
         let json = JSON(data)
         do {
             return try json.rawData()
-        }
-        catch {
+        } catch {
             return nil
         }
     }
 
     open func unpack(_ data: Data) -> [Any]? {
-        return JSON(data: data).arrayObject
+        do {
+            let result = try JSON(data: data).arrayObject
+            return result
+        } catch (_) {
+            return nil
+        }
     }
 }
